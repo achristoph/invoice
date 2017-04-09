@@ -1,0 +1,48 @@
+<div class="container">
+    <h1>Invoice Form</h1>
+    <form (ngSubmit)="createInvoice(invoiceForm.value)" #invoiceForm="ngForm">
+        <div>
+            <button md-raised-button (click)="newInvoice()">New Invoice</button>
+        </div>
+        <md-input-container>
+            <input mdInput placeholder="Customer Name" [(ngModel)]="invoice.customerName" name="customerName" required>
+        </md-input-container>
+        <md-input-container>
+            <input mdInput placeholder="Invoice Date" type="date" [ngModel]="invoice.date | date:'yyyy-MM-dd'" (ngModelChange)="invoice.date = $event"
+                name="invoiceDate" required>
+        </md-input-container>
+        <md-input-container>
+            <input mdInput placeholder="Invoice Number" [(ngModel)]="invoice.number" name="invoiceNumber" required>
+        </md-input-container>
+
+        <form (ngSubmit)="addProduct(searchForm.value)" #searchForm="ngForm">
+            <md-input-container>
+                <input mdInput placeholder="Product Search" name="product" [(ngModel)]="product" [mdAutocomplete]="auto" (input)="searchProduct($event.target.value)">
+
+                <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn">
+                    <md-option *ngFor="let product of filteredProducts" [value]="product">
+                        {{ product.name }}
+                    </md-option>
+                </md-autocomplete>
+            </md-input-container>
+
+            <button md-raised-button type="submit">Add</button>
+        </form>
+
+        <ul>
+            <li *ngFor="let lineItem of lineItems;let i = index">
+                {{lineItem.name}} :
+                <md-input-container>
+                    <input mdInput placeholder="Quantity" [(ngModel)]="lineItem.qty" name="qtyInput_{{i}}" type="number" min="0" required>
+                </md-input-container>
+                <md-input-container>
+                    <input mdInput placeholder="Price" [(ngModel)]="lineItem.price" name="priceInput_{{i}}" type="number" min="0" required>
+                </md-input-container>
+                <button md-raised-button type="submit" (click)="removeProduct(lineItem)">Remove</button>
+            </li>
+        </ul>
+        <button md-raised-button type="submit" [disabled]="(lineItems.length === 0 || !invoiceForm.form.valid)">Create</button>
+    </form>
+    <h2>Invoice</h2>
+    <div [hidden]="isHidden">{{displayInvoice()}}</div>
+</div>
