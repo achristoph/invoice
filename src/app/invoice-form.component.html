@@ -1,9 +1,9 @@
 <div class="container">
     <h1>Invoice Form</h1>
+    <div>
+        <button md-raised-button (click)="newInvoice()">New Invoice</button>
+    </div>
     <form (ngSubmit)="createInvoice(invoiceForm.value)" #invoiceForm="ngForm">
-        <div>
-            <button md-raised-button (click)="newInvoice()">New Invoice</button>
-        </div>
         <md-input-container>
             <input mdInput placeholder="Customer Name" [(ngModel)]="invoice.customerName" name="customerName" required>
         </md-input-container>
@@ -44,5 +44,5 @@
         <button md-raised-button type="submit" [disabled]="(lineItems.length === 0 || !invoiceForm.form.valid)">Create</button>
     </form>
     <h2>Invoice</h2>
-    <div [hidden]="isHidden">{{displayInvoice()}}</div>
+    <div *ngIf="!isHidden">{{displayInvoice()}}</div>
 </div>

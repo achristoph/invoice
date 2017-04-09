@@ -19,6 +19,11 @@ export class InvoiceFormComponent implements OnInit {
     createInvoice(f: any) {
         this.isHidden = false;
     }
+    newInvoice() {
+        this.invoice = new Invoice('', '', '');
+        this.lineItems = [];
+        this.isHidden = true;
+    }
     searchProduct(v: string) {
         this.filteredProducts = this.products.filter(p => p.name.toLowerCase().indexOf(v) > -1);
     }
@@ -33,11 +38,6 @@ export class InvoiceFormComponent implements OnInit {
     removeProduct(v: any) {
         let i = this.lineItems.findIndex(li => li.name === v.name);
         this.lineItems.splice(i, 1);
-    }
-    newInvoice() {
-        this.invoice = new Invoice('', '', '');
-        this.lineItems = [];
-        this.isHidden = true;
     }
     displayFn(product: Product): any {
         return product ? product.name : product;
